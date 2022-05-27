@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
-const { settings } = require("./../util/settings.json");
+const { settings } = require("../util/settings.json");
 
 module.exports = {
   data: new SlashCommandBuilder()

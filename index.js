@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { Client, Collection, Intents } = require("discord.js");
-const { discordToken } = require("./config.json");
+const { discordToken } = require("./src/config.json");
 //Music imports
 const { Player } = require("discord-player");
 //Creates a client with desired intents
@@ -17,19 +17,17 @@ global.player = new Player(client);
 client.commands = new Collection();
 client.aliases = new Collection();
 client.interactions = new Collection();
+
 //Loads the command handler
-fs.readdir("./commands/", async (err, folders) => {
-  const commandHandler = require("./util/commandHandler");
+const commandHandler = require("./src/util/commandHandler");
+fs.readdir("./src/commands/", async (err, folders) => {
   await commandHandler(err, folders, client);
 });
+
 //Loads the event handler
-fs.readdir("./events/", (err, files) => {
-  const eventHandler = require("./util/eventHandler");
+const eventHandler = require("./src/util/eventHandler");
+fs.readdir("./src/events/", (err, files) => {
   eventHandler(err, files, client);
 });
-
-module.exports = {
-  client,
-};
 
 client.login(discordToken);
