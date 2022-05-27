@@ -33,9 +33,9 @@ module.exports = {
       return interaction.editReply(`I can't join the voice channel!`);
     }
     await interaction.editReply(
-      `Added ${
+      `Added **${
         res.playlist ? `${res.playlist.title}` : `${res.tracks[0].title}`
-      } to the queue!`
+      }** to the queue!`
     );
     res.playlist ? queue.addTracks(res.tracks) : queue.addTrack(res.tracks[0]);
     if (!queue.playing) await queue.play();

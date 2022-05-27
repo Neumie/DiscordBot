@@ -7,6 +7,7 @@ module.exports = {
 
     if (!command) return;
 
+    //Try to execute the command
     try {
       await command.execute(interaction, client);
     } catch (error) {
