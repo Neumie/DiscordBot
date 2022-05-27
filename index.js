@@ -1,7 +1,6 @@
 const fs = require("fs");
 const { Client, Collection, Intents } = require("discord.js");
 const { discordToken } = require("./src/config.json");
-//Music imports
 const { Player } = require("discord-player");
 //Creates a client with desired intents
 const client = new Client({
@@ -11,11 +10,12 @@ const client = new Client({
     Intents.FLAGS.GUILD_VOICE_STATES,
   ],
 });
+
 //Creates a music player
 global.player = new Player(client);
+
 //Creates maps for various uses
 client.commands = new Collection();
-client.aliases = new Collection();
 client.interactions = new Collection();
 
 //Loads the command handler
@@ -30,4 +30,5 @@ fs.readdir("./src/events/", (err, files) => {
   eventHandler(err, files, client);
 });
 
+//Logs in with discordToken
 client.login(discordToken);
