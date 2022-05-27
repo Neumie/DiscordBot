@@ -4,15 +4,10 @@ module.exports = (err, files, client) => {
     const eventFunction = require(`./../events/${file}`);
     if (eventFunction.disabled) return;
 
-    const event = eventFunction.event || file.split(".")[0];
-    const emitter =
-      (typeof eventFunction.emitter === "string"
-        ? client[eventFunction.emitter]
-        : eventFunction.emitter) || client;
+    const emitter = eventFunction.music ? player : client;
     const once = eventFunction.once;
-
     try {
-      emitter[once ? "once" : "on"](event, (...args) => {
+      emitter[once ? "once" : "on"](eventFunction.event, (...args) => {
         eventFunction.execute(...args, client);
       });
     } catch (error) {

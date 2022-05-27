@@ -14,15 +14,12 @@ module.exports = {
     if (!queue.tracks[0]) return interaction.reply(`No music is in the queue`);
 
     const embed = new MessageEmbed();
-    const methods = ["", "🔁", "🔂"];
 
     embed.setColor(settings.embedColor);
     embed.setThumbnail(
       interaction.guild.iconURL({ size: 2048, dynamic: true })
     );
-    embed.setAuthor(
-      `Queue - ${interaction.guild.name} ${methods[queue.repeatMode]}`
-    );
+    embed.setAuthor(`Queue - ${interaction.guild.name}}`);
 
     const tracks = queue.tracks.map(
       (track, i) =>
@@ -32,7 +29,7 @@ module.exports = {
     );
 
     const songs = queue.tracks.length;
-    const nextSongs = songs > 5 ? `And **${songs - 5}** other song(s)...` : ``;
+    const nextSongs = songs > 5 ? `And **${songs - 5}** other song(s)` : ``;
 
     embed.setDescription(
       `**0** - ${queue.current.title}\nduration: ${
