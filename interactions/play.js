@@ -12,7 +12,7 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    await interaction.reply("Working on it!");
+    await interaction.deferReply();
     const res = await player.search(interaction.options.get("input").value, {
       requestedBy: interaction.user,
       searchEngine: QueryType.AUTO,
@@ -32,7 +32,11 @@ module.exports = {
       await player.deleteQueue(interaction.guild.id);
       return interaction.editReply(`I can't join the voice channel!`);
     }
-    await interaction.editReply(`Added ${res.tracks[0].title} to the queue!`);
+    await interaction.editReply(
+      `Added ${
+        res.playlist ? `${res.playlist.title}` : `${res.tracks[0].title}`
+      } to the queue!`
+    );
     res.playlist ? queue.addTracks(res.tracks) : queue.addTrack(res.tracks[0]);
     if (!queue.playing) await queue.play();
   },
