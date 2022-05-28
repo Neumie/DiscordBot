@@ -12,7 +12,9 @@ const client = new Client({
 });
 
 //Creates a music player
-global.player = new Player(client);
+global.player = new Player(client, {
+  disableVolume: true,
+});
 
 //Creates maps for various uses
 client.commands = new Collection();
