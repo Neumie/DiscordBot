@@ -13,15 +13,23 @@ module.exports = {
     ),
   async execute(interaction) {
     await interaction.deferReply();
-    const res = await player.search(interaction.options.get("input").value, {
-      requestedBy: interaction.user,
-      searchEngine: QueryType.AUTO,
-    });
+    const searchResult = await player.search(
+      interaction.options.get("input").value,
+      {
+        requestedBy: interaction.user,
+        searchEngine: QueryType.AUTO,
+      }
+    );
 
-    if (!res || !res.tracks.length)
+    if (!searchResult || !searchResult.tracks.length)
       return interaction.editReply(`No results found!`);
 
     const queue = await player.createQueue(interaction.guild, {
+      ytdlOptions: {
+        filter: "audioonly",
+        highWaterMark: 1 << 30,
+        dlChunkSize: 0,
+      },
       metadata: interaction.channel,
     });
 
@@ -34,10 +42,14 @@ module.exports = {
     }
     await interaction.editReply(
       `Added **${
-        res.playlist ? `${res.playlist.title}` : `${res.tracks[0].title}`
+        searchResult.playlist
+          ? `${searchResult.playlist.title}`
+          : `${searchResult.tracks[0].title}`
       }** to the queue!`
     );
-    res.playlist ? queue.addTracks(res.tracks) : queue.addTrack(res.tracks[0]);
+    searchResult.playlist
+      ? queue.addTracks(res.tracks)
+      : queue.addTrack(searchResult.tracks[0]);
     if (!queue.playing) await queue.play();
   },
 };
