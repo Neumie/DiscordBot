@@ -19,7 +19,7 @@ module.exports = {
     embed.setThumbnail(
       interaction.guild.iconURL({ size: 2048, dynamic: true })
     );
-    embed.setAuthor(`Queue - ${interaction.guild.name}}`);
+    embed.setAuthor(`Queue - ${interaction.guild.name}`);
 
     const tracks = queue.tracks.map(
       (track, i) =>
