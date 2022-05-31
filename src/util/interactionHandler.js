@@ -12,7 +12,6 @@ module.exports = async (err, folders, client) => {
       const interaction = require(`./../interactions/${folder}/${file}`);
       client.interactions.set(interaction.data.name, interaction);
       client.interactionsArray.push(interaction.data.toJSON());
-      console.log(`loaded ${file}`);
     });
   });
 
