@@ -8,9 +8,9 @@ module.exports = {
     client.user.setActivity(`Material Girl`, { type: "PLAYING" });
 
     //Loads interactions
-    const interactionsHandler = require("../util/interactionHandler");
-    fs.readdir("./src/interactions", (err, files) => {
-      interactionsHandler(err, files, client);
+    const interactionHandler = require("../util/interactionHandler");
+    fs.readdir("./src/interactions", (err, folders) => {
+      interactionHandler(err, folders, client);
     });
   },
 };

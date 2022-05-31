@@ -1,15 +1,19 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { discordToken } = require("./../config.json");
+const fs = require("node:fs");
 
-module.exports = async (err, files, client) => {
+module.exports = async (err, folders, client) => {
   if (err) return console.error(err);
 
   client.interactionsArray = [];
-  files.forEach((file) => {
-    const interaction = require(`./../interactions/${file}`);
-    client.interactions.set(interaction.data.name, interaction);
-    client.interactionsArray.push(interaction.data.toJSON());
+  folders.forEach((folder) => {
+    fs.readdirSync(`./src/interactions/${folder}`).forEach((file) => {
+      const interaction = require(`./../interactions/${folder}/${file}`);
+      client.interactions.set(interaction.data.name, interaction);
+      client.interactionsArray.push(interaction.data.toJSON());
+      console.log(`loaded ${file}`);
+    });
   });
 
   const rest = new REST({ version: "9" }).setToken(discordToken);
