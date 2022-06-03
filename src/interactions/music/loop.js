@@ -1,19 +1,20 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { QueueRepeatMode } = require("discord-player");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("loop")
     .setDescription("Changes loop mode")
-    .addStringOption((option) =>
+    .addNumberOption((option) =>
       option
         .setName("mode")
         .setDescription("Toggle mode")
         .setRequired(true)
         .addChoices(
-          { name: "off", value: "OFF" },
-          { name: "track", value: "TRACK" },
-          { name: "queue", value: "QueueRepeatMode.QUEUE" },
-          { name: "autoplay", value: "QueueRepeatMode.AUTOPLAY" }
+          { name: "off", value: QueueRepeatMode.OFF },
+          { name: "track", value: QueueRepeatMode.TRACK },
+          { name: "queue", value: QueueRepeatMode.QUEUE },
+          { name: "autoplay", value: QueueRepeatMode.AUTOPLAY }
         )
     ),
   async execute(interaction) {
@@ -23,11 +24,10 @@ module.exports = {
         content: "No music is being played!",
       });
     const loopMode = interaction.options.get("mode").value;
-    console.log(Number(loopMode));
     const success = queue.setRepeatMode(Number(loopMode));
     const mode =
       loopMode === "TRACK" ? "🔂" : loopMode === "QUEUE" ? "🔁" : "▶";
-    return void interaction.sendFollowUp({
+    return void interaction.reply({
       content: success
         ? `${mode} | Updated loop mode!`
         : "❌ | Could not update loop mode!",
