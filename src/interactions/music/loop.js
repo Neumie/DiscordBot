@@ -26,11 +26,15 @@ module.exports = {
     const loopMode = interaction.options.get("mode").value;
     const success = queue.setRepeatMode(Number(loopMode));
     const mode =
-      loopMode === "TRACK" ? "🔂" : loopMode === "QUEUE" ? "🔁" : "▶";
+      loopMode === "TRACK"
+        ? "track"
+        : loopMode === "QUEUE"
+        ? "queue"
+        : "autoplay";
     return void interaction.reply({
       content: success
-        ? `${mode} | Updated loop mode!`
-        : "❌ | Could not update loop mode!",
+        ? `${mode} Updated loop mode!`
+        : "Could not update loop mode!",
     });
   },
 };
